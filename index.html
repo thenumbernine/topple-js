@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Sandpiles</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+		<script type='text/javascript' src='/js/jquery-1.11.1.min.js'></script>
+		<script type='text/javascript' src='/js/util.js'></script>
+		<script type='text/javascript' src='/js/gl-matrix.2.2.0.min.js'></script>
+		<script type='text/javascript' src='/js/gl-util.js'></script>
+		<script type='text/javascript' src='/js/gl-util-unitquad.js'></script>
+		<script type='text/javascript' src='/js/gl-util-pingpong.js'></script>
+		<script type='text/javascript' src='/js/mouse3d.js'></script>
+		<script type="text/javascript" src="/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		<script type='text/javascript' src='main.js'></script>
+		
+<script type='text/javascript'>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-17312646-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+	</head>
+	<body style='margin:0px; overflow:hidden; background-color:black; color:white'>
+		<div id='panel' style='overflow:hidden; z-index:1; position:absolute; padding:4px'>
+			total sand: <span id='totalSand'></span><br>
+			init amount: <input id='initValue'/><br>
+			draw amount: <input id='drawValue'/><br> 
+			<input id='inputMethod_pan' type='radio' name='inputMethod' value='pan' checked=1/> pan<br>
+			<input id='inputMethod_draw' type='radio' name='inputMethod' value='draw'/> draw<br>
+			<button id='reset'>Reset</button>
+		
+		</div>
+
+	</body>
+</html>
