@@ -40,7 +40,7 @@ function reset() {
 		h.unbind();
 	});
 
-	setTotalSand(initValue);
+	setTotalSand(+initValue);
 }
 
 function initGL() {
@@ -246,7 +246,7 @@ $(document).ready(function(){
 					pingpong.current().bind();
 					gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value)
 					pingpong.current().unbind();
-					setTotalSand(totalSand + drawValue);
+					setTotalSand(+totalSand + drawValue);
 				}
 			}
 		},
