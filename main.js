@@ -166,6 +166,35 @@ void main() {
 function update() {
 	glutil.draw();
 
+	//TODO just draw a 1x1 quad over the correct pixel
+	if (inputMethod == 'draw' && mouse.isDown) {
+		var ar = canvas.width / canvas.height;
+		var x = (mouse.xf - .5) * 2 * glutil.view.fovY * ar + glutil.view.pos[0];
+		var y = (1 - mouse.yf - .5) * 2 * glutil.view.fovY + glutil.view.pos[1];
+		x = Math.floor(x * gridsize + .5);
+		y = Math.floor(y * gridsize + .5);
+		if (x >= 0 && x < gridsize && y >= 0 && y < gridsize) {
+			var value = new Uint8Array(4);
+			pingpong.draw({
+				callback : function() {
+					gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value);
+				}
+			});
+			var intvalue = value[0] | (value[1] << 8) | (value[2] << 16) | (value[3] << 24);
+			intvalue += drawValue;
+			value[0] = intvalue & 0xff;
+			value[1] = (intvalue >> 8) & 0xff;
+			value[2] = (intvalue >> 16) & 0xff;
+			value[3] = (intvalue >> 24) & 0xff;
+			
+			pingpong.current().bind();
+			gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value)
+			pingpong.current().unbind();
+			setTotalSand(+totalSand + drawValue);
+		}
+	}
+
+
 	var fboProjMat = mat4.create();
 	mat4.identity(fboProjMat);
 	mat4.ortho(fboProjMat, 0, 1, 0, 1, -1, 1);
@@ -223,32 +252,7 @@ $(document).ready(function(){
 				glutil.view.pos[0] -= dx / canvas.height * 2 * glutil.view.fovY;
 				glutil.view.pos[1] += dy / canvas.height * 2 * glutil.view.fovY;
 				glutil.updateProjection();
-			} else {
-				var ar = canvas.width / canvas.height;
-				var x = (mouse.xf - .5) * 2 * glutil.view.fovY * ar + glutil.view.pos[0];
-				var y = (1 - mouse.yf - .5) * 2 * glutil.view.fovY + glutil.view.pos[1];
-				x = Math.floor(x * gridsize + .5);
-				y = Math.floor(y * gridsize + .5);
-				if (x >= 0 && x < gridsize && y >= 0 && y < gridsize) {
-					var value = new Uint8Array(4);
-					pingpong.draw({
-						callback : function() {
-							gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value);
-						}
-					});
-					var intvalue = value[0] | (value[1] << 8) | (value[2] << 16) | (value[3] << 24);
-					intvalue += drawValue;
-					value[0] = intvalue & 0xff;
-					value[1] = (intvalue >> 8) & 0xff;
-					value[2] = (intvalue >> 16) & 0xff;
-					value[3] = (intvalue >> 24) & 0xff;
-					
-					pingpong.current().bind();
-					gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value)
-					pingpong.current().unbind();
-					setTotalSand(+totalSand + drawValue);
-				}
-			}
+			} 
 		},
 		zoom : function(dz) {
 			glutil.view.fovY *= Math.exp(-.1 * dz / canvas.height);
