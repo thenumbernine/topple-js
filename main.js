@@ -276,6 +276,7 @@ $(document).ready(function(){
 	glutil.updateProjection();
 
 	var maxsize =  gl.getParameter(gl.MAX_TEXTURE_SIZE);
+	if (gridsize > maxsize) gridsize = maxsize;
 	var gridsizes = $('#gridsize');
 	for (var size = 32; size <= maxsize; size<<=1) {
 		var option = $('<option>', {
