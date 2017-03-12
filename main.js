@@ -5,7 +5,8 @@ var glutil;
 var modulo = 4;
 var initValue = 1<<16;
 var drawValue = 25;
-var gridsize = 1024;
+var gridsize = +$.url().param('size');
+if (gridsize !== gridsize) gridsize = 1024;
 
 var inputMethod = 'pan';
 
@@ -40,7 +41,7 @@ function reset() {
 		h.unbind();
 	});
 
-	setTotalSand(+initValue);
+	setTotalSand(initValue);
 }
 
 function initGL() {
@@ -79,6 +80,12 @@ function initGL() {
 	});
 	grad.bind(1);
 
+	var glstr = function(x) {
+		var s = ''+x;
+		if (s.indexOf('.') == -1) s += '.';
+		return s;
+	};
+
 	updateShader = new glutil.ShaderProgram({
 		vertexPrecision : 'best',
 		vertexCode : mlstr(function(){/*
@@ -93,8 +100,8 @@ void main() {
 		fragmentPrecision : 'best',
 		fragmentCode : 
 		
-'const float du = '+(1/gridsize)+';\n'+
-'const float modulo = '+modulo+'.;\n'+
+'const float du = '+glstr(1/gridsize)+';\n'+
+'const float modulo = '+glstr(modulo)+';\n'+
 mlstr(function(){/*
 varying vec2 tc;
 uniform sampler2D tex;
@@ -190,7 +197,7 @@ function update() {
 			pingpong.current().bind();
 			gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value)
 			pingpong.current().unbind();
-			setTotalSand(+totalSand + drawValue);
+			setTotalSand(totalSand + drawValue);
 		}
 	}
 
@@ -268,6 +275,31 @@ $(document).ready(function(){
 	glutil.view.pos[1] = .5;
 	glutil.updateProjection();
 
+	var maxsize =  gl.getParameter(gl.MAX_TEXTURE_SIZE);
+	var gridsizes = $('#gridsize');
+	for (var size = 32; size <= maxsize; size<<=1) {
+		var option = $('<option>', {
+			text : size,
+			value : size
+		});
+		if (size == gridsize) option.attr('selected', 'true');
+		gridsizes.append(option);
+	}
+	gridsizes.change(function() {
+		var params = $.url().param();
+		params.size = gridsizes.val();
+		var url = location.href.match('[^?]*')[0];
+		var sep = '?';
+		for (k in params) {
+			if (k != '') {
+				url += sep;
+				url += k + '=' + params[k];
+				sep = '&';
+			}
+		}
+		location.href = url;
+	});
+
 	$.each(['reset'], function(i, field) {
 		$('#'+field).click(function() {
 			window[field]();
@@ -278,7 +310,7 @@ $(document).ready(function(){
 		$('#'+field)
 			.val(''+window[field])
 			.change(function() {
-				window[field] = $(this).val();
+				window[field] = +$(this).val();
 			});
 	});
 
