@@ -6,6 +6,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+		
+		<link rel="stylesheet" text="text/css" href="style.css"/>
 
 		<script type='text/javascript' src='/js/jquery-1.11.1.min.js'></script>
 		<script type='text/javascript' src='/js/purl.js'></script>
@@ -15,7 +17,6 @@
 		<script type='text/javascript' src='/js/gl-util-unitquad.js'></script>
 		<script type='text/javascript' src='/js/gl-util-pingpong.js'></script>
 		<script type='text/javascript' src='/js/mouse3d.js'></script>
-		<script type="text/javascript" src="/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 		<script type='text/javascript' src='main.js'></script>
 		
 <script type='text/javascript'>
@@ -30,14 +31,14 @@ _gaq.push(['_trackPageview']);
 </script>
 
 	</head>
-	<body style='margin:0px; overflow:hidden; background-color:black; color:white'>
-		<div id='panel' style='overflow:hidden; z-index:1; position:absolute; padding:4px'>
+	<body>
+		<div id='panel'>
 			total sand: <span id='totalSand'></span><br>
 			init amount: <input id='initValue'/><br>
 			draw amount: <input id='drawValue'/><br> 
-			<input id='inputMethod_pan' type='radio' name='inputMethod' value='pan' checked=1/> pan<br>
-			<input id='inputMethod_draw' type='radio' name='inputMethod' value='draw'/> draw<br>
-			<button id='reset'>Reset</button><br>
+			<button id='button_pan'><input id='inputMethod_pan' type='radio' name='inputMethod' value='pan' checked=1/> pan</button>
+			<button id='button_draw'><input id='inputMethod_draw' type='radio' name='inputMethod' value='draw'/> draw</button>
+			<button id='reset'>Reset</button>
 			<select id='gridsize'>
 			</select>
 		</div>

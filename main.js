@@ -337,8 +337,12 @@ $(document).ready(function(){
 			});
 	});
 
+	//https://stackoverflow.com/questions/4618733/set-selected-radio-from-radio-group-with-a-value#4618748
+	var updateRadio = function() { $('input[name=inputMethod]').val([inputMethod]); };
 	$('#inputMethod_pan').click(function() { inputMethod = 'pan'; });
 	$('#inputMethod_draw').click(function() { inputMethod = 'draw'; });
+	$('#button_pan').click(function() { inputMethod = 'pan'; updateRadio(); });
+	$('#button_draw').click(function() { inputMethod = 'draw'; updateRadio(); });
 
 	initGL();
 	update();
