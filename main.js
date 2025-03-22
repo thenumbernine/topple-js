@@ -1,5 +1,6 @@
 import {mat4} from '/js/gl-matrix-3.4.1/index.js';
-import {DOM, getIDs, removeFromParent} from '/js/util.js';
+import {Canvas, Option} from '/js/dom.js';
+import {getIDs, removeFromParent} from '/js/util.js';
 import {GLUtil} from '/js/gl-util.js';
 import {Mouse3D} from '/js/mouse3d.js';
 
@@ -270,8 +271,8 @@ function update() {
 	//setTimeout(update, 0);
 }
 
-canvas = DOM('canvas', {
-	css : {
+canvas = Canvas({
+	style : {
 		left : 0,
 		top : 0,
 		position : 'absolute',
@@ -323,8 +324,8 @@ glutil.updateProjection();
 let maxsize =  gl.getParameter(gl.MAX_TEXTURE_SIZE);
 if (gridsize > maxsize) gridsize = maxsize;
 for (let size = 32; size <= maxsize; size<<=1) {
-	let option = DOM('option', {
-		text : size,
+	let option = Option({
+		innerText : size,
 		value : size,
 		appendTo : ids.gridsize,
 	});
