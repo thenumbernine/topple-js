@@ -1,12 +1,12 @@
 import {mat4} from '/js/gl-matrix-3.4.1/index.js';
 import {Canvas, Option} from '/js/dom.js';
 import {getIDs, removeFromParent} from '/js/util.js';
-import {GLUtil} from '/js/gl-util.js';
+import {GLUtil} from '/js/gl/gl.js';
 import {Mouse3D} from '/js/mouse3d.js';
 
 //shitty new system because how do you call import() blocking
-import {makePingPong} from '/js/gl-util-PingPong.js';
-import {makeUnitQuad} from '/js/gl-util-UnitQuad.js';
+import {makePingPong} from '/js/gl/PingPong.js';
+import {makeUnitQuad} from '/js/gl/UnitQuad.js';
 
 const ids = getIDs();
 window.ids = ids;
